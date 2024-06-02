@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form action="/add" method="POST">
+    {% csrf_token %}
+    <input type="text" placeholder="Название задачи" style="height: 30px;" name="task_name">
+    <br><br>
+    <textarea name="task_description" id="" cols="30" rows="10" placeholder="Описание задачи"></textarea>
+    <br>
+    <button type="submit" style="height: 35px; border-radius: 15px;">Добавить задачу</button>
+    <br>
+    <br>
+</form>
+
+    {% for task in tasks %}
+        {% if task.is_done == False %}
+           <a href="{% url 'task_detail' task_id=task.id %}" style="font-size: 30px;background-color: red; text-decoration: none;border-radius: 25px; padding: 5px">
+                        {{ task.id }}. {{ task.name }}
+             </a>
+            <button name="task_done" style="width: 100px; height: 35px; border-radius: 20px; position: relative; top: -10px; left:10px;">
+                <a href="{% url 'mark_task' task_id=task.id %}" style="text-decoration: none; color:black;">Отметить задачу</a> </button>
+                <button style="width: 100px; height: 35px; border-radius: 20px; position: relative; top: -10px; left: 10px;" ><a href="{% url 'delete_task' task_id=task.id %}" style="text-decoration: none; color: black;">Удалить задачу </a></button>
+   {% else  %}
+              <a href="{% url 'task_detail' task_id=task.id %}" style="font-size: 30px; background-color: limegreen;text-decoration: none; border-radius: 25px; padding: 5px">
+                        {{ task.id }}. {{ task.name }}
+              </a>
+               <button name="task_done" style="width: 100px; height: 35px; border-radius: 20px; position: relative; top: -10px; left: 10px;">
+                   <a href="{% url 'mark_task' task_id=task.id %}" style="text-decoration: none; color:black;">Отметить задачу</a>
+               </button>
+
+                <button style="width: 100px; height: 35px; border-radius: 20px; position: relative; top: -10px; left: 10px; "><a href="{% url 'delete_task' task_id=task.id %}" style="text-decoration:none; color: black;">Удалить задачу </a></button>
+    {% endif %}
+
+        <br>
+        <br>
+    {% endfor %}
+
+</body>
+</html>
